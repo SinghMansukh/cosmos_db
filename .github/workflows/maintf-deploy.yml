@@ -3,7 +3,7 @@ name: Terraform Azure CI/CD
 on:
   push:
     branches:
-      - master
+      - main
 
   workflow_dispatch:      # enables the "Run workflow" button
     inputs:
