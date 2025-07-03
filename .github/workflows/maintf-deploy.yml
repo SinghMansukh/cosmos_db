@@ -24,6 +24,7 @@ jobs:
     name: Terraform Plan
     runs-on: ubuntu-latest
     if: github.event_name == 'push'
+
     steps:
     - name: Checkout Code
       uses: actions/checkout@v3
@@ -39,11 +40,10 @@ jobs:
 
 
   apply:
-    name: Terraform Apply
+    name: Terraform Apply (Manual with Approval)
     runs-on: ubuntu-latest
     if: github.event_name == 'workflow_dispatch' && github.event.inputs.apply == 'yes'
-    # needs: plan
-    environment: production
+    environment: production   # 👈 Manual approval gate before Apply runs
 
     steps:
     - name: Checkout Code
