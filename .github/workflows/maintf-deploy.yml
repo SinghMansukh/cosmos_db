@@ -42,7 +42,7 @@ jobs:
     name: Terraform Apply
     runs-on: ubuntu-latest
     if: github.event_name == 'workflow_dispatch' && github.event.inputs.apply == 'yes'
-    needs: plan
+    # needs: plan
     environment: production
 
     steps:
