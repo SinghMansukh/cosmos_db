@@ -1,51 +1,10 @@
-name: Terraform Azure CI/CD
+apply:
+  name: Terraform Apply (Manual with Approval)
+  runs-on: ubuntu-latest
+  if: github.event_name == 'workflow_dispatch' && toLower(github.event.inputs.apply) == 'yes'
+  environment: production   # Manual approval required
 
-on:
-  push:
-    branches:
-      - main
-
-  workflow_dispatch:      # enables the "Run workflow" button
-    inputs:
-      apply:
-        description: 'Do you want to apply the changes?'
-        required: true
-        default: 'no'
-
-env:
-  ARM_CLIENT_ID: ${{ secrets.ARM_CLIENT_ID }}
-  ARM_CLIENT_SECRET: ${{ secrets.ARM_CLIENT_SECRET }}
-  ARM_SUBSCRIPTION_ID: ${{ secrets.SUBS_ID }}
-  ARM_TENANT_ID: ${{ secrets.ARM_TENANT_ID }}
-
-jobs:
-
-  plan:
-    name: Terraform Plan
-    runs-on: ubuntu-latest
-    if: github.event_name == 'push'
-
-    steps:
-    - name: Checkout Code
-      uses: actions/checkout@v3
-
-    - name: Setup Terraform
-      uses: hashicorp/setup-terraform@v2
-
-    - name: Terraform Init
-      run: terraform init
-
-    - name: Terraform Plan
-      run: terraform plan
-
-
-  apply:
-    name: Terraform Apply (Manual with Approval)
-    runs-on: ubuntu-latest
-    if: github.event_name == 'workflow_dispatch' && github.event.inputs.apply == 'yes'
-    environment: production   # 👈 Manual approval gate before Apply runs
-
-    steps:
+  steps:
     - name: Checkout Code
       uses: actions/checkout@v3
 
